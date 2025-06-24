@@ -1,4 +1,4 @@
----
+
 
 ## 🦊 Project Branding Overview
 
@@ -12,7 +12,7 @@
 
 This brand identity aligns with the mission of building a next-generation SIEM platform that’s developer-friendly, automation-centric, and efficient for modern Security Operations Centers.
 
----
+
 
 ## 📚 Table of Contents
 1. 🔧 Project Title
