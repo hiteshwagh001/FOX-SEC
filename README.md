@@ -1,4 +1,4 @@
-# 🦊FOX-SEC #
+**# 🦊FOX-SEC #**
 
 ## 🦊 Project Branding Overview
 
