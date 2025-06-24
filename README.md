@@ -1,5 +1,3 @@
-**FOX-SEC – Full System Design Document**
-
 ---
 
 ## 🦊 Project Branding Overview
@@ -189,5 +187,5 @@ These are planned upgrades that will further enhance the tool’s capabilities:
 10. **Drag-and-Drop Rule Builder:**
     - Visual interface for building alert rules without code, ideal for beginner analysts.
 
-Let me know if you'd like to attach visual diagrams or flowcharts to this section.
+
 
