@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ticket
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/journaldb?retryWrites=false
+      auto-index-creation: true
+
+server:
+    port: 8081
