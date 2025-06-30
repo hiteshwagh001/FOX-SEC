@@ -1,6 +1,7 @@
 package com.foxsec.user_services.model;
 
-public enum UserRole {
+public enum 
+UserRole {
     ADMIN,
     USER,
     GUEST;

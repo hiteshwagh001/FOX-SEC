@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foxsec.user_services.dto.UserDto;
+import com.foxsec.user_services.exception.UserAlreadyExistException;
+import com.foxsec.user_services.mapper.UserMapper;
 import com.foxsec.user_services.model.User;
-import com.foxsec.user_services.model.UserRole;
 import com.foxsec.user_services.repo.UserRepo;
 import com.foxsec.user_services.services.UserServices;
 
@@ -20,18 +21,16 @@ public class UserServicesImpl implements UserServices {
 
     // Implement the methods defined in UserServices interface
     @Override
-    public Optional<User> saveUser(UserDto userDto) {
+    public void saveUser(UserDto userDto) {
         // Logic to save user
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setEmail(userDto.getEmail());
-        user.setRole(UserRole.fromString(userDto.getRole()));
-        user.setActive(true); // Assuming new users are active by default
-        user.setCreatedAt(String.valueOf(System.currentTimeMillis())); // Placeholder for createdAt
-        user.setUpdatedAt(String.valueOf(System.currentTimeMillis())); // Placeholder for updatedAt
-        // Save the user to the repository
-        return Optional.of(userRepo.save(user));
+        User user = UserMapper.mapToUser(userDto);
+        Optional<User> existingUser = userRepo.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
+            // User with this email already exists
+            throw new UserAlreadyExistException("User with email " + user.getEmail() + " already exists");
+        }
+        User savedUser = userRepo.save(user);
+        return;
     }
 
     @Override
