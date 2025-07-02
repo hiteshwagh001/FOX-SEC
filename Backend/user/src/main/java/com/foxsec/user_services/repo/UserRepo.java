@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.foxsec.user_services.model.User;
 
@@ -16,5 +17,8 @@ public interface UserRepo extends MongoRepository<User, String> {
 
     // To find a user by email
     Optional<User> findByEmail(String email);
+
+    @Transactional
+    void deleteByEmail(String email);
     
 }

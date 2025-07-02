@@ -22,5 +22,7 @@ public interface UserServices {
     boolean isUserExistByEmail(String email);
 
     Optional<List<User>> getAllUser();
+
+    UserDto getUserByEmail(String email);
     
 }

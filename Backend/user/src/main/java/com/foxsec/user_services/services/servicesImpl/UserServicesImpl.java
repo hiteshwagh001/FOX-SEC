@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foxsec.user_services.dto.UserDto;
+import com.foxsec.user_services.exception.ResourceNotFoundException;
 import com.foxsec.user_services.exception.UserAlreadyExistException;
 import com.foxsec.user_services.mapper.UserMapper;
 import com.foxsec.user_services.model.User;
@@ -25,11 +26,12 @@ public class UserServicesImpl implements UserServices {
         // Logic to save user
         User user = UserMapper.mapToUser(userDto);
         Optional<User> existingUser = userRepo.findByEmail(user.getEmail());
+        System.out.println(user.getEmail());
         if (existingUser.isPresent()) {
             // User with this email already exists
             throw new UserAlreadyExistException("User with email " + user.getEmail() + " already exists");
         }
-        User savedUser = userRepo.save(user);
+        userRepo.save(user);
         return;
     }
 
@@ -68,6 +70,17 @@ public class UserServicesImpl implements UserServices {
         Optional<List<User>> users = Optional.of(userRepo.findAll());
 
         return users.isPresent() ? Optional.of(users.get()) : Optional.empty();
+    }
+
+    @Override
+    public UserDto getUserByEmail(String email) {
+        // Logic to get user by email
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+
+        // Map User to UserDto
+        UserDto userDto = UserMapper.mapToUserDto(user);
+        return userDto;
     }
 
 }
