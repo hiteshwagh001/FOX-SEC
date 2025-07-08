@@ -1,0 +1,120 @@
+🚀 Step-by-Step Guide to Create Docker Images
+
+This guide explains 3 major ways to create Docker images with simple steps, including code snippets, explanations, and a summary table. Each method is useful based on different scenarios (custom control, Maven integration, fast builds, etc.).
+
+---
+
+✅ Method 1: Using a Dockerfile (Standard Way)
+
+🔧 Steps:
+
+1. Create a Dockerfile in your project root:
+
+```Dockerfile
+# Base image with Java installed
+FROM openjdk:21-jdk-slim
+
+# Working directory inside the container
+WORKDIR /app
+
+# Copy the JAR file into container
+COPY target/your-app.jar app.jar
+
+# Command to run
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+2. Build Docker Image:
+
+```bash
+mvn clean install   # generates jar file in target/
+docker build -t yourname/appname:tag .
+```
+
+3. Run Docker Container:
+
+```bash
+docker run -p 8080:8080 yourname/appname:tag
+```
+
+---
+
+✅ Method 2: Using Jib Plugin (No Dockerfile Required)
+
+🔧 Steps:
+
+1. Add Jib plugin to your pom.xml:
+
+```xml
+<plugin>
+  <groupId>com.google.cloud.tools</groupId>
+  <artifactId>jib-maven-plugin</artifactId>
+  <version>3.4.6</version>
+</plugin>
+```
+
+2. Build Docker Image directly:
+
+```bash
+mvn compile jib:dockerBuild
+```
+
+3. Run the container:
+
+```bash
+docker run -p 8080:8080 yourname/appname
+```
+
+📌 Note: Jib doesn’t require Dockerfile or docker daemon to build image and pushes directly to registry if configured.
+
+---
+
+✅ Method 3: Spring Boot build-image (Spring Native Way)
+
+🔧 Steps:
+
+1. Make sure your pom.xml has this plugin:
+
+```xml
+<plugin>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-maven-plugin</artifactId>
+  <executions>
+    <execution>
+      <goals>
+        <goal>build-image</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+```
+
+2. Build Docker Image:
+
+```bash
+mvn spring-boot:build-image
+```
+
+3. Run the container:
+
+```bash
+docker run -p 8080:8080 your-app:version
+```
+
+---
+
+📝 Summary Comparison Table
+
+| Method                 | Requires Dockerfile | Needs Docker Daemon | Easiest For          | Customizable |
+| ---------------------- | ------------------- | ------------------- | -------------------- | ------------ |
+| Dockerfile             | ✅ Yes               | ✅ Yes               | Full control builds  | ✅ Yes        |
+| Jib Plugin             | ❌ No                | ✅ Yes (for local)   | CI/CD, Maven users   | ⚠️ Limited   |
+| Spring Boot BuildImage | ❌ No                | ✅ Yes               | Spring Boot projects | ⚠️ Limited   |
+
+---
+
+🔽 Recommended Downloads
+
+- ✅ Sample Dockerfile
+- ✅ Sample pom.xml for Jib and Spring Boot plugin
+- ✅ Example build & run commands
