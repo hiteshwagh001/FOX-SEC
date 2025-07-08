@@ -17,9 +17,6 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         user.setRole(UserRole.fromString(userDto.getRole()));
         user.setActive(userDto.isActive());
-        user.setCreatedAt(String.valueOf(System.currentTimeMillis())); // Placeholder for createdAt
-        user.setCreatedBy("system"); // Placeholder for createdBy
-        user.setUpdatedAt(String.valueOf(System.currentTimeMillis())); // Placeholder for updatedAt
         return user;
     }
 
@@ -31,9 +28,6 @@ public class UserMapper {
         userDto.setEmail(user.getEmail());
         userDto.setRole(user.getRole().toString());
         userDto.setActive(user.isActive());
-        userDto.setCreatedAt(user.getCreatedAt());
-        userDto.setCreatedBy(user.getCreatedBy());
-        userDto.setUpdatedAt(user.getUpdatedAt());
         return userDto;
     }
 
